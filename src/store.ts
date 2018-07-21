@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { action, observable } from "mobx";
 import createBrowserHistory from "history/createBrowserHistory";
 import { History } from "history";
 import { LangCode, PathDef } from "./const";
@@ -16,7 +16,13 @@ export class SettingRepo {
 export class Nav {
   constructor(private history: History){}
 
+  @action.bound
   gotoMyPage() {
     this.history.push(PathDef.mypage);
+  }
+
+  @action.bound
+  gotoDiscovery() {
+    this.history.push(PathDef.discover);
   }
 }
