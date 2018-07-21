@@ -7,6 +7,8 @@
     "@types/material-ui": "^0.21.4",
     "@types/react-router": "^4.0.29",
     "mdi-react": "^4.0.0",
+    "mobx": "^5.0.3",
+    "mobx-react": "^5.2.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router": "^4.3.1",
