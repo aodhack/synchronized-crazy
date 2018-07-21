@@ -4,8 +4,8 @@ import { History } from "history";
 import { LangCode, PathDef } from "./const";
 
 export class Store {
-  private readonly history = createBrowserHistory();
-  router = new Router(this.history);
+  readonly history = createBrowserHistory();
+  nav = new Nav(this.history);
 }
 
 export class SettingRepo {
@@ -13,7 +13,7 @@ export class SettingRepo {
   lang = LangCode.ja;
 }
 
-export class Router {
+export class Nav {
   constructor(private history: History){}
 
   gotoMyPage() {

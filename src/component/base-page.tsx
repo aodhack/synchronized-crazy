@@ -7,7 +7,7 @@ export abstract class BasePage<DirectProp = {}, S = never, UrlParam = never, Mat
 
   // TODO: helper methods?
 
-
+  get nav() { return this.props.store.nav; }
 
 
 }

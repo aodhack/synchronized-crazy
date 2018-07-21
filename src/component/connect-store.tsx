@@ -12,9 +12,7 @@ export interface StoreProps {
 
 type WithoutStore<T extends StoreProps> = Omit<T, keyof StoreProps>;
 
-const StoreContext = React.createContext<Store>(null!);
-
-export const StoreProvider = StoreContext.Provider;
+export const StoreContext = React.createContext<Store>(null!);
 
 export function connectStore<P extends StoreProps>(C: React.ComponentType<P>)
   : React.StatelessComponent<WithoutStore<P>> {

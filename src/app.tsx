@@ -2,23 +2,31 @@ import * as React from 'react';
 import './app.css';
 
 import { Store } from "./store";
-import { StoreProvider } from "./component/connect-store";
-import { Route, Switch } from "react-router";
+import { StoreContext } from "./component/connect-store";
+import { Route, Router, Switch } from "react-router";
+import { PathDef } from "./const";
+import { MyPage } from "./component/my-page";
 
 export class App extends React.Component {
 
   store = new Store();
 
   public render() {
-    return <StoreProvider value={this.store}><RootRouter/></StoreProvider>
+    const { history } = this.store;
+    return (
+      <StoreContext.Provider value={this.store}>
+        <Router history={history}>
+          <Routes />
+        </Router>
+      </StoreContext.Provider>
+    );
   }
 }
 
-function RootRouter(props: {}) {
+function Routes(props: {}) {
   return (
     <Switch>
-      <Route path={}/>
+      <Route path={PathDef.mypage} component={MyPage} />
     </Switch>
-  )
-
+  );
 }
