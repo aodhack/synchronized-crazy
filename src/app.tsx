@@ -48,4 +48,4 @@ function Routes(props: {}) {
 
 console.log('taipeispots', TaipeiSpots);
 console.log('taipei wifi', TaipeiWifi);
-HereRest.tryRouteSeq();
+// HereRest.tryRouteSeq();

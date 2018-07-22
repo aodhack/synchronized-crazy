@@ -129,19 +129,7 @@ class JourneyWalkView extends BasePage<{}, State> {
   renderMap() {
     const { route } = this;
     const { start, end, p1, p2 } = this.state;
-    if (route) {
-      return route.case<React.ReactNode>({
-        pending() {
-          return '経路検索しています';
-        },
-        fulfilled(f: RoutingWaypoints.RootObject) {
-          return <pre>{JSON.stringify(f, null, 2)}</pre>;
-        },
-        rejected() {
-          return 'FAILED';
-        },
-      });
-    } else if (p1 && p2) {
+    if (route && p1 && p2) {
       const c = findCenter(start, end, p1, p2);
 
       const imgUrl = HereRest.mapTileUrl(c, 10);
@@ -153,8 +141,26 @@ class JourneyWalkView extends BasePage<{}, State> {
   }
 
   renderRoute() {
+    const { route } = this;
 
+    if (!route || route.state === 'pending') return '経路検索しています';
+
+    return route.case<React.ReactNode>({
+      fulfilled: (f: RoutingWaypoints.RootObject) => {
+
+        const { start, end } = this.state;
+        const connections = f.results[0]!.interconnections;
+
+        return connections.map((c, i) => (
+          <Interconnection key={i} start={start.name} end={end.name} interconnection={c}/>
+        ));
+      },
+      rejected() {
+        return 'FAILED';
+      },
+    });
   }
+
 
   render() {
     const { start, end, p1, p2 } = this.state;
@@ -165,6 +171,7 @@ class JourneyWalkView extends BasePage<{}, State> {
 
         <div>
           <Typography gutterBottom variant="headline" component="h2">
+            地図
           </Typography>
           {this.renderMap()}
         </div>
@@ -174,9 +181,35 @@ class JourneyWalkView extends BasePage<{}, State> {
         {/*(チェックイン)*/}
         {/*</Typography>*/}
         {/*</div>*/}
+
+
+        <div>
+          <Typography gutterBottom variant="headline" component="h2">
+            経路
+          </Typography>
+          {this.renderRoute()}
+        </div>
       </div>
     )
   }
 }
 
 export const JourneyWalk = connectStore(JourneyWalkView);
+
+function Interconnection(props: { start: string, end: string, interconnection: RoutingWaypoints.Interconnection }) {
+  const { start, end, interconnection } = props;
+
+  const realStart = interconnection.fromWaypoint === 'start' ? start : interconnection.fromWaypoint;
+  const realEnd = interconnection.toWaypoint === 'end' ? end : interconnection.toWaypoint;
+
+  return (
+    <div>
+      <Typography gutterBottom component="h5">
+        {realStart} - {realEnd}
+      </Typography>
+      <p>
+        所要時間 {(interconnection.time / 60).toFixed(0)} 分
+      </p>
+    </div>
+  );
+}
