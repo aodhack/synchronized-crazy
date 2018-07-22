@@ -17,11 +17,11 @@ const styles = {
 function JoureyCardView(props: {}) {
   return (
     <Card className="journal-card-container">
-      <CardMedia
-        className="journal-card-media"
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="Contemplative Reptile"
-      />
+      {/*<CardMedia*/}
+        {/*className="journal-card-media"*/}
+        {/*image="/static/images/cards/contemplative-reptile.jpg"*/}
+        {/*title="Contemplative Reptile"*/}
+      {/*/>*/}
       <CardContent>
         <Typography gutterBottom variant="headline" component="h2">
           桃太郎が岡山県に旅したい
@@ -32,7 +32,7 @@ function JoureyCardView(props: {}) {
       </CardContent>
       <CardActions>
         <Button size="small" color="primary" variant='contained'>
-          応援する!
+          応援する
         </Button>
       </CardActions>
     </Card>

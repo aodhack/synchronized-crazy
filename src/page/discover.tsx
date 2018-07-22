@@ -8,7 +8,7 @@ class DiscoverView extends BasePage {
   render() {
     return (
       <div>
-        他の人の旅を応援しよう!
+        他の人の旅を応援しよう!!
         <JourneyCard />
         <JourneyCard />
       </div>
