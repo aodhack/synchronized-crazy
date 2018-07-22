@@ -10,7 +10,7 @@ import { PathDef } from "./const";
 import { MyPage } from "./page/my-page";
 import { DiscoverPage } from "./page/discover";
 import { CreateJourneyPage } from "./page/journey-create";
-import { TaipeiSpots, TaipeiWifi } from "./external/external";
+import { IshikawaEvents, TaipeiSpots, TaipeiWifi } from "./external/external";
 import { JourneyWalk } from "./page/journey-walk";
 import { HereRest } from "./external/here-api";
 
@@ -48,4 +48,5 @@ function Routes(props: {}) {
 
 console.log('taipeispots', TaipeiSpots);
 console.log('taipei wifi', TaipeiWifi);
+console.log('ishikawa spots', IshikawaEvents);
 // HereRest.tryRouteSeq();

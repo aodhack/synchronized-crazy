@@ -17,4 +17,5 @@ export interface Pos {
 
 export interface Spot extends Pos {
   name: string;
+  property?: string;
 }

@@ -32,4 +32,3 @@ export const TaipeiStation: Spot = {
   lat: 121.517222,
 };
 
-

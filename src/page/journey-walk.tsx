@@ -3,11 +3,10 @@ import * as React from 'react';
 import { BasePage } from "./base-page";
 import { connectStore } from "./connect-store";
 import { TaipeiStation } from "../const";
-import { TaipeiSpots, TaipeiWifi } from "../external/external";
+import { IshikawaEvents, TaipeiSpots, TaipeiWifi } from "../external/external";
 import { Spot } from "../types";
 import {
   Avatar,
-  Checkbox,
   IconButton,
   List,
   ListItem,
@@ -41,10 +40,10 @@ class JourneyWalkView extends BasePage<{}, State> {
   }
 
   state: State = {
-    start: TaipeiStation,
-    end: TaipeiStation,
-    p1: TaipeiSpots[2],
-    p2: TaipeiWifi[66],
+    start: IshikawaEvents[0],
+    end: IshikawaEvents[5],
+    p1: IshikawaEvents[6],
+    p2: IshikawaEvents[7],
   }
 
   @action.bound
@@ -58,7 +57,7 @@ class JourneyWalkView extends BasePage<{}, State> {
   }
 
   renderSpotSelection() {
-    const { p1, p2 } = this.state;
+    const { start, end, p1, p2 } = this.state;
     if (p1 && p2) {
       return (
         <div className="journey-walk">
@@ -73,8 +72,8 @@ class JourneyWalkView extends BasePage<{}, State> {
                   <CrosshairsGpsIcon/>
                 </Avatar>
                 <ListItemText
-                  primary={TaipeiStation.name}
-                  secondary="出発地"
+                  primary={start.name}
+                  secondary={start.property || "出発地"}
                 />
               </ListItem>
               <ListItem>
@@ -83,7 +82,7 @@ class JourneyWalkView extends BasePage<{}, State> {
                 </Avatar>
                 <ListItemText
                   primary={p1.name}
-                  secondary="イベント"
+                  secondary={p1.property || "イベント"}
                 />
                 <ListItemSecondaryAction>
                   <IconButton aria-label="Delete">
@@ -97,7 +96,7 @@ class JourneyWalkView extends BasePage<{}, State> {
                 </Avatar>
                 <ListItemText
                   primary={p2.name}
-                  secondary="free wifi"
+                  secondary={p2.property || "free wifi"}
                 />
                 <ListItemSecondaryAction>
                   <IconButton aria-label="Delete">
@@ -110,8 +109,8 @@ class JourneyWalkView extends BasePage<{}, State> {
                   <CrosshairsGpsIcon/>
                 </Avatar>
                 <ListItemText
-                  primary={TaipeiStation.name}
-                  secondary="目的地"
+                  primary={end.name}
+                  secondary={end.property || "目的地"}
                 />
               </ListItem>
             </List>
