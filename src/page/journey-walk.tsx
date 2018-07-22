@@ -5,7 +5,7 @@ import { connectStore } from "./connect-store";
 import { TaipeiStation } from "../const";
 import { TaipeiSpots } from "../external/external";
 import { Spot } from "../types";
-import { Avatar, List, ListItem, ListItemText, Typography } from "@material-ui/core";
+import { Avatar, Checkbox, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@material-ui/core";
 import { CrosshairsGpsIcon, PinIcon, WifiIcon } from "mdi-react";
 
 class RouteModel {
@@ -14,7 +14,6 @@ class RouteModel {
 
 interface State {
   route: Spot[];
-
 }
 
 class JourneyWalkView extends BasePage {
@@ -31,7 +30,7 @@ class JourneyWalkView extends BasePage {
       <div className="journey-walk">
         <div>
           <Typography gutterBottom variant="headline" component="h2">
-
+            選ばれた計画:
           </Typography>
 
           <List className="journey-spot-selected">
@@ -43,15 +42,25 @@ class JourneyWalkView extends BasePage {
                 primary={TaipeiStation.name}
                 secondary="出発地"
               />
+              <ListItemSecondaryAction>
+                <Checkbox
+                  checked
+                />
+              </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
               <Avatar>
-                <PinIcon />
+                <PinIcon/>
               </Avatar>
               <ListItemText
                 primary="SPOT"
                 secondary="経由"
               />
+              <ListItemSecondaryAction>
+                <Checkbox
+                  checked
+                />
+              </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
               <Avatar>
@@ -61,6 +70,9 @@ class JourneyWalkView extends BasePage {
                 primary="WIFIがあるところ"
                 secondary="経由"
               />
+              <ListItemSecondaryAction>
+                <Checkbox checked={false}/>
+              </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
               <Avatar>
@@ -70,6 +82,9 @@ class JourneyWalkView extends BasePage {
                 primary={TaipeiStation.name}
                 secondary="目的地"
               />
+              <ListItemSecondaryAction>
+                <Checkbox checked={false}/>
+              </ListItemSecondaryAction>
             </ListItem>
           </List>
 
