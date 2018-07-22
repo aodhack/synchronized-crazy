@@ -10,6 +10,8 @@ import { PathDef } from "./const";
 import { MyPage } from "./page/my-page";
 import { DiscoverPage } from "./page/discover";
 import { CreateJourneyPage } from "./page/journey-create";
+import { TaipeiSpots } from "./external/external";
+import { JourneyWalk } from "./page/journey-walk";
 
 const theme = createMuiTheme({});
 
@@ -38,6 +40,9 @@ function Routes(props: {}) {
       <Route path={PathDef.mypage} exact component={MyPage}/>
       <Route path={PathDef.journeyCreate} exact component={CreateJourneyPage}/>
       <Route path={PathDef.discover} exact component={DiscoverPage}/>
+      <Route path={PathDef.journey} exact component={JourneyWalk} />
     </Switch>
   );
 }
+
+console.log('taipeispots', TaipeiSpots);
