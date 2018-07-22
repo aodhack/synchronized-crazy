@@ -12,6 +12,7 @@ import { DiscoverPage } from "./page/discover";
 import { CreateJourneyPage } from "./page/journey-create";
 import { TaipeiSpots } from "./external/external";
 import { JourneyWalk } from "./page/journey-walk";
+import { HereRest } from "./external/here-api";
 
 const theme = createMuiTheme({});
 
@@ -46,3 +47,5 @@ function Routes(props: {}) {
 }
 
 console.log('taipeispots', TaipeiSpots);
+
+HereRest.tryRouteSeq()

@@ -1,4 +1,7 @@
+import * as _ from 'lodash';
 import { Pos, Spot } from "../types";
+import { TaipeiStation } from "../const";
+import { TaipeiSpots, TaipeiWifi } from "./external";
 
 export namespace HereRest {
   const HereFixedParams = [
@@ -12,14 +15,21 @@ export namespace HereRest {
     return `${endpoint}?${params.join('&')}`;
   }
 
-  export async function waypointSequence(start: Spot, end: Spot, waypoint0: Spot, waypoint1: Spot) {
+  function encodeLngLat(p: Pos) {
+    const lngStr = _.toNumber(p.lng);
+    const latStr = _.toNumber(p.lat);
+    return `${lngStr},${latStr}`;
+  }
+
+  export async function waypointSequence(start: Spot, end: Spot, waypoint0: Spot, waypoint1: Spot)
+    : Promise<RoutingWaypoints.RootObject> {
     const url = createUrl(
       'https://wse.cit.api.here.com/2/findsequence.json',
       [
-        `start=p0;${start.lat},${start.lng}`,
-        `destination1=p1;${waypoint0.lat},${waypoint0.lng}`,
-        `destination2=p2;${waypoint1.lat},${waypoint1.lng}`,
-        `end=p3;${end.lat},${end.lng}`,
+        `start=start;${encodeLngLat(start)}`,
+        `destination1=${waypoint0.name};${encodeLngLat(waypoint0)}`,
+        `destination2=${waypoint1.name};${encodeLngLat(waypoint1)}`,
+        `end=end;${encodeLngLat(end)}`,
         `mode=fastest;pedestrian;traffic:disabled`,
       ],
     );
@@ -42,4 +52,71 @@ export namespace HereRest {
       ]
     );
   }
+
+  export async function tryRouteSeq() {
+
+    const start = TaipeiStation;
+    const end = TaipeiStation;
+    const w1 = TaipeiSpots[5];
+    const w2 = TaipeiWifi[5];
+
+    const seq = await waypointSequence(
+      start,
+      end,
+      w1,
+      w2
+    );
+    console.log(seq);
+  }
 }
+
+/**
+ * https://developer.here.com/documentation/routing-waypoints/topics/quick-start-simple-car.html の戻り値
+ */
+declare module RoutingWaypoints {
+
+  export interface Waypoint {
+    id: string;
+    lat: number;
+    lng: number;
+    sequence: number;
+    estimatedArrival?: any;
+    estimatedDeparture?: any;
+    fulfilledConstraints: any[];
+  }
+
+  export interface Interconnection {
+    fromWaypoint: string;
+    toWaypoint: string;
+    distance: number;
+    time: number;
+    rest: number;
+    waiting: number;
+  }
+
+  export interface TimeBreakdown {
+    driving: number;
+    service: number;
+    rest: number;
+    waiting: number;
+  }
+
+  export interface Result {
+    waypoints: Waypoint[];
+    distance: string;
+    time: string;
+    interconnections: Interconnection[];
+    description: string;
+    timeBreakdown: TimeBreakdown;
+  }
+
+  export interface RootObject {
+    results: Result[];
+    errors: any[];
+    processingTimeDesc: string;
+    responseCode: string;
+    warnings?: any;
+    requestId?: any;
+  }
+}
+

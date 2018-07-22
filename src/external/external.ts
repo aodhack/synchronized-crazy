@@ -8,5 +8,4 @@ export const TaipeiSpots: Spot[] = RawTaipeiSpots.map((v: any) => ({
   lng: v.longitude,
 }));
 
-
-console.log(RawTaipeiWifi);
+export const TaipeiWifi: Spot[] = RawTaipeiWifi;
