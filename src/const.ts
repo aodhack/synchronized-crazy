@@ -1,3 +1,5 @@
+import { Spot } from "./types";
+
 export const enum LangCode {
   ja,
   zhSim,
@@ -23,4 +25,11 @@ export const PathDef = Object.freeze({
 
   setting: '/setting',
 });
+
+export const TaipeiStation: Spot = {
+  name: '台北車站',
+  lng: 25.047778,
+  lat: 121.517222,
+};
+
 
