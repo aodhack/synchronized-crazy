@@ -10,3 +10,7 @@ export function findCenter(p1: Pos, ...points: Pos[]): Pos {
     lng: _.mean(_p.map(p => _.toNumber(p.lng))),
   });
 }
+
+//
+// export function getBoundingBox(p1: Pos, ...points: Pos[]): [Pos, Pos] {
+// }
