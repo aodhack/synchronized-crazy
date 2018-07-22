@@ -47,7 +47,7 @@ export namespace HereRest {
     return createUrl(
       `https://image.maps.cit.api.here.com/mia/1.6/mapview`,
       [
-        `c=${center.lat},${center.lng}`,
+        `c=${center.lng},${center.lat}`,
         `z=16`,
       ]
     );
@@ -73,7 +73,9 @@ export namespace HereRest {
 /**
  * https://developer.here.com/documentation/routing-waypoints/topics/quick-start-simple-car.html の戻り値
  */
-declare module RoutingWaypoints {
+export namespace RoutingWaypoints {
+
+  const NOTNULL = 0;
 
   export interface Waypoint {
     id: string;

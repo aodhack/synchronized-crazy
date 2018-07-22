@@ -3,29 +3,75 @@ import * as React from 'react';
 import { BasePage } from "./base-page";
 import { connectStore } from "./connect-store";
 import { TaipeiStation } from "../const";
-import { TaipeiSpots } from "../external/external";
+import { TaipeiSpots, TaipeiWifi } from "../external/external";
 import { Spot } from "../types";
 import { Avatar, Checkbox, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@material-ui/core";
 import { CrosshairsGpsIcon, PinIcon, WifiIcon } from "mdi-react";
-
-class RouteModel {
-
-}
+import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
+import { observer } from "mobx-react";
+import { HereRest, RoutingWaypoints } from "../external/here-api";
+import { action, observable } from "mobx";
+import { findCenter } from "../util";
 
 interface State {
-  route: Spot[];
+  p1?: Spot;
+  p2?: Spot;
 }
 
-class JourneyWalkView extends BasePage {
+@observer
+class JourneyWalkView extends BasePage<{}, State> {
 
-  dummyData = {
-    start: TaipeiStation,
-    end: TaipeiStation,
-    spots: TaipeiSpots,
-    wifiSpots: [] as Spot[],
+  @observable.ref
+  private route?: IPromiseBasedObservable<RoutingWaypoints.RootObject>;
+
+  readonly start = TaipeiStation;
+  readonly end = TaipeiStation;
+
+  state: State = {
+    p1: TaipeiSpots[2],
+    p2: TaipeiWifi[66],
+  }
+
+  @action.bound
+  refreshRoute() {
+    const { p1, p2 } = this.state;
+    if (p1 && p2) {
+      this.route = fromPromise(HereRest.waypointSequence(this.start, this.end, p1, p2));
+    } else {
+      this.route = undefined;
+    }
+  }
+
+  renderMap() {
+    const { route } = this;
+    const { p1, p2 } = this.state;
+    if (route) {
+      return route.case<React.ReactNode>({
+        pending() {
+          return '経路検索しています';
+        },
+        fulfilled(f: RoutingWaypoints.RootObject) {
+          return <pre>{JSON.stringify(f, null, 2)}</pre>;
+        },
+        rejected() {
+          return 'FAILED';
+        },
+      });
+    } else if (p1 && p2) {
+      const c = findCenter(this.start, this.end, p1, p2);
+
+      const imgUrl = HereRest.mapTileUrl(c, 10);
+
+      return (
+        <img src={imgUrl}/>
+      );
+    } else return 'スポットを選択してください';
   }
 
   render() {
+    const { start, end } = this;
+    const { p1, p2 } = this.state;
+
     return (
       <div className="journey-walk">
         <div>
@@ -91,17 +137,20 @@ class JourneyWalkView extends BasePage {
           <List className="journey-spot-list">
 
           </List>
-
-          <Typography gutterBottom variant="headline" component="h2">
-            (地図)
-          </Typography>
         </div>
 
         <div>
           <Typography gutterBottom variant="headline" component="h2">
-            (チェックイン)
+            (地図)
           </Typography>
+          {this.renderMap()}
         </div>
+
+        {/*<div>*/}
+        {/*<Typography gutterBottom variant="headline" component="h2">*/}
+        {/*(チェックイン)*/}
+        {/*</Typography>*/}
+        {/*</div>*/}
       </div>
     )
   }
