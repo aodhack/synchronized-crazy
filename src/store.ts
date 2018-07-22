@@ -22,6 +22,15 @@ export class Nav {
   }
 
   @action.bound
+  gotoJourney() {
+    this.history.push(PathDef.journey);
+  }
+
+  gotoJourneyCreate() {
+    this.history.push(PathDef.journeyCreate);
+  }
+
+  @action.bound
   gotoDiscovery() {
     this.history.push(PathDef.discover);
   }

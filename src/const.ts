@@ -15,7 +15,9 @@ export const PathDef = Object.freeze({
 
   travel: '/travel',
 
-  journey: '/journey/:journeyId',
+  journeyCreate: '/journey/create',
+
+  journey: '/journey',
 
   support: '/support',
 
