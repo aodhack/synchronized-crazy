@@ -35,6 +35,11 @@ class JourneyWalkView extends BasePage<{}, State> {
   @observable.ref
   private route?: IPromiseBasedObservable<RoutingWaypoints.RootObject>;
 
+  constructor(props: {}) {
+    super(props as any);
+    this.refreshRoute();
+  }
+
   state: State = {
     start: TaipeiStation,
     end: TaipeiStation,
