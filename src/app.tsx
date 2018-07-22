@@ -22,9 +22,8 @@ export class App extends React.Component {
       <StoreContext.Provider value={this.store}>
         <Router history={history}>
           <MuiThemeProvider theme={theme}>
-            <CssBaseline>
-              <Routes/>
-            </CssBaseline>
+            <CssBaseline/>
+            <Routes/>
           </MuiThemeProvider>
         </Router>
       </StoreContext.Provider>
