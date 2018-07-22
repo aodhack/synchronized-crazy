@@ -9,6 +9,7 @@ import { Route, Router, Switch } from "react-router";
 import { PathDef } from "./const";
 import { MyPage } from "./page/my-page";
 import { DiscoverPage } from "./page/discover";
+import { CreateJourneyPage } from "./page/journey-create";
 
 const theme = createMuiTheme({});
 
@@ -35,6 +36,7 @@ function Routes(props: {}) {
   return (
     <Switch>
       <Route path={PathDef.mypage} exact component={MyPage}/>
+      <Route path={PathDef.journeyCreate} exact component={CreateJourneyPage}/>
       <Route path={PathDef.discover} exact component={DiscoverPage}/>
     </Switch>
   );

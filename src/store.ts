@@ -26,6 +26,7 @@ export class Nav {
     this.history.push(PathDef.journey);
   }
 
+  @action.bound
   gotoJourneyCreate() {
     this.history.push(PathDef.journeyCreate);
   }
